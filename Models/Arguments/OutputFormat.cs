@@ -6,6 +6,7 @@ namespace sample.console.Models.Arguments
     public enum OutputFormat
     {
         Text,
+
         Json
     }
 }

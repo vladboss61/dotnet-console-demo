@@ -4,7 +4,6 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,10 +20,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove=".gitignore" />
       <None Remove="appsettings.json" />
+      <None Remove="logs\.gitingore" />
+      <None Remove="Readme.md" />
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="logs\" />
     </ItemGroup>
 
 </Project>
