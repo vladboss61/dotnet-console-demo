@@ -9,7 +9,7 @@ namespace sample.console.Models.Arguments
     [Verb("stats", false, HelpText="Calculate statistics for a list of values")]
     public class StatisticsOptions
     {
-        [Option('f', "format", Default = OutputFormat.text)]
+        [Option('f', "format", Default = OutputFormat.Text)]
         public OutputFormat Format { get; set; } = default!;
         
         [Value(0, MetaName = "Expression", Required = true,

@@ -10,17 +10,17 @@ using sample.console.Models.Output;
 namespace sample.console.Services.Tasks
 {
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public class CalculateTaskFactory : ITaskFactory
+    public class Calculate : IApplication
     {
         private readonly ExpressionEvaluator _evaluator;
         private readonly IConsoleOutput _console;
-        private readonly ILogger<CalculateTaskFactory> _logger;
+        private readonly ILogger<Calculate> _logger;
         private readonly CalculateOptions _options;
 
-        public CalculateTaskFactory(
+        public Calculate(
             ExpressionEvaluator evaluator,
             IConsoleOutput console,
-            ILogger<CalculateTaskFactory> logger,
+            ILogger<Calculate> logger,
             CalculateOptions options)
         {
             _evaluator = evaluator;
@@ -42,7 +42,7 @@ namespace sample.console.Services.Tasks
                 var results = _evaluator.Evaluate(expression);
                 var end = DateTime.Now;
                 var output = CalculateOutput.FromResults(results);
-                _console.WriteLine(_options.Format == OutputFormat.text
+                _console.WriteLine(_options.Format == OutputFormat.Text
                     ? output.ToString()
                     : output.ToJson());
                 _logger.LogDebug("Evaluated in {Elapsed} milliseconds",

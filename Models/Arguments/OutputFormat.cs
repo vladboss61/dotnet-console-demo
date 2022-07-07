@@ -5,7 +5,7 @@ namespace sample.console.Models.Arguments
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum OutputFormat
     {
-        text,
-        json
+        Text,
+        Json
     }
 }

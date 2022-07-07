@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using CodingSeb.ExpressionEvaluator;
 using CommandLine;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using sample.console.Models.Arguments;
@@ -25,35 +27,30 @@ namespace sample.console
                 var host = Host.CreateDefaultBuilder(args)
                     .ConfigureServices((context, services) =>
                     {
-                        // Configure Serilog
-                        Log.Logger = new LoggerConfiguration()
-                            .ReadFrom.Configuration(context.Configuration)
-                            .CreateLogger();
-
-                        // Set up our console output class
                         services.AddSingleton<IConsoleOutput, ConsoleOutput>();
-
-                        // Based upon verb/options, create services, including the task
                         var parserResult = Parser.Default.ParseArguments<CalculateOptions, StatisticsOptions>(args);
                         parserResult
                             .WithParsed<CalculateOptions>(options =>
                             {
                                 services.AddSingleton<ExpressionEvaluator>();
                                 services.AddSingleton(options);
-                                services.AddSingleton<ITaskFactory, CalculateTaskFactory>();
+                                services.AddSingleton<IApplication, Calculate>();
                             })
                             .WithParsed<StatisticsOptions>(options =>
                             {
                                 services.AddSingleton(options);
-                                services.AddSingleton<ITaskFactory, StatisticsTaskFactory>();
+                                services.AddSingleton<IApplication, Statistics>();
+                            })
+                            .WithNotParsed(x =>
+                            {
+                                Console.Error.WriteLine("Something wrong with params, see --help");
                             });
                     })
-                    .UseSerilog()
                     .Build();
 
                 // If a task was set up to run (i.e. valid command line params) then run it
                 // and return the results
-                var task = host.Services.GetService<ITaskFactory>();
+                var task = host.Services.GetService<IApplication>();
                 return task == null
                     ? -1 // This can happen on --help or invalid arguments
                     : await task.Launch();

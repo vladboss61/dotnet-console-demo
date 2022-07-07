@@ -9,7 +9,7 @@ namespace sample.console.Models.Arguments
     [Verb("calc", true, HelpText="Evaluate a mathematical expression")]
     public class CalculateOptions
     {
-        [Option('f', "format", Default = OutputFormat.text)]
+        [Option('f', "format", Default = OutputFormat.Text)]
         public OutputFormat Format { get; set; } = default!;
         
         [Value(0, MetaName = "Expression", Required = true,

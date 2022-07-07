@@ -11,15 +11,15 @@ using sample.console.Models.Output;
 namespace sample.console.Services.Tasks
 {
     [SuppressMessage("ReSharper", "ClassWithVirtualMembersNeverInherited.Global")]
-    public class StatisticsTaskFactory : ITaskFactory
+    public class Statistics : IApplication
     {
         private readonly IConsoleOutput _console;
-        private readonly ILogger<StatisticsTaskFactory> _logger;
+        private readonly ILogger<Statistics> _logger;
         private readonly StatisticsOptions _options;
 
-        public StatisticsTaskFactory(
+        public Statistics(
             IConsoleOutput console,
-            ILogger<StatisticsTaskFactory> logger,
+            ILogger<Statistics> logger,
             StatisticsOptions options)
         {
             _console = console;
@@ -39,7 +39,7 @@ namespace sample.console.Services.Tasks
                 var stats = new DescriptiveStatistics(_options.Values.Select(Convert.ToDouble));
                 var end = DateTime.Now;
                 var results = StatisticsOutput.FromDescriptiveStatistics(stats);
-                var output = _options.Format == OutputFormat.text
+                var output = _options.Format == OutputFormat.Text
                     ? string.Join(", ", results.GetType().GetProperties().Select(p => $"{p.Name}={p.GetValue(results)}"))
                     : JsonSerializer.Serialize(results);
                 _console.WriteLine(output);

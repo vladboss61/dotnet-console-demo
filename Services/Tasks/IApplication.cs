@@ -5,7 +5,7 @@ namespace sample.console.Services.Tasks
     /// <summary>
     /// Interface for launching an executable task
     /// </summary>
-    public interface ITaskFactory
+    public interface IApplication
     {
         /// <summary>
         /// Execute a task, return the exit code (0 = success)
