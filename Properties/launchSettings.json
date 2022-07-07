@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "Sample.Console.Calc": {
+      "commandName": "Project",
+      "commandLineArgs": "calc 500 + 2",
+      "environmentVariables": {
+
+      }
+    },
+    "Sample.Console.Stats": {
+      "commandName": "Project",
+      "commandLineArgs": "stats 100 200 300 400 500",
+      "environmentVariables": {
+
+      }
+    },
+
+    "Sample.Console.Error": {
+      "commandName": "Project"
+    }
+  }
+}
