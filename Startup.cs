@@ -26,6 +26,7 @@ internal sealed class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var parserResult = Parser.Default.ParseArguments<CalculateOptions, StatisticsOptions>(_args);
+
         services.AddSingleton(_logger);
         services.AddSingleton(_configuration);
         services.AddSingleton<IConsoleOutput, ConsoleOutput>();
