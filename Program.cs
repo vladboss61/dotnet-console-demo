@@ -22,13 +22,25 @@ namespace sample.console
         /// <returns>Exit code</returns>
         public static async Task<int> Main(string[] args)
         {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
             try
             {
                 var host = Host.CreateDefaultBuilder(args)
                     .ConfigureServices((context, services) =>
                     {
+                        services.AddSingleton<ILogger>(logger);
                         services.AddSingleton<IConsoleOutput, ConsoleOutput>();
+
                         var parserResult = Parser.Default.ParseArguments<CalculateOptions, StatisticsOptions>(args);
+
                         parserResult
                             .WithParsed<CalculateOptions>(options =>
                             {
@@ -43,7 +55,7 @@ namespace sample.console
                             })
                             .WithNotParsed(x =>
                             {
-                                Console.Error.WriteLine("Something wrong with params, see --help");
+                                logger.Error("Something wrong with params, see --help");
                             });
                     })
                     .Build();
@@ -58,7 +70,7 @@ namespace sample.console
             catch (Exception ex)
             {
                 // Note that this should only occur if something went wrong with building Host
-                await Console.Error.WriteLineAsync(ex.Message);
+                logger.Error(ex.Message);
                 return -1;
             }
         }

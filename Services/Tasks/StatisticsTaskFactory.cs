@@ -35,6 +35,7 @@ namespace sample.console.Services.Tasks
             try
             {
                 _logger.LogDebug("Analyzing {Values}", string.Join(",", _options.Values));
+                
                 var start = DateTime.Now;
                 var stats = new DescriptiveStatistics(_options.Values.Select(Convert.ToDouble));
                 var end = DateTime.Now;
@@ -42,9 +43,11 @@ namespace sample.console.Services.Tasks
                 var output = _options.Format == OutputFormat.Text
                     ? string.Join(", ", results.GetType().GetProperties().Select(p => $"{p.Name}={p.GetValue(results)}"))
                     : JsonSerializer.Serialize(results);
+
                 _console.WriteLine(output);
                 _logger.LogDebug("Analyzed in {Elapsed} milliseconds", 
                     end.Subtract(start).TotalMilliseconds);
+                
                 return 0;
             }
             catch (Exception ex)

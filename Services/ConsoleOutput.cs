@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace sample.console.Services
 {
@@ -8,23 +8,21 @@ namespace sample.console.Services
     /// </summary>
     public class ConsoleOutput: IConsoleOutput
     {
-        private readonly ILogger<ConsoleOutput> _logger;
+        private readonly ILogger _logger;
 
-        public ConsoleOutput(ILogger<ConsoleOutput> logger)
+        public ConsoleOutput(ILogger logger)
         {
             _logger = logger;
         }
         
         public void WriteLine(string message)
         {
-            Console.WriteLine(message);
-            _logger.LogInformation("{Message}", message);
+            _logger.Information("{Message}", message);
         }
 
         public void WriteError(string message)
         {
-            Console.Error.WriteLine(message);
-            _logger.LogError("{Message}", message);
+            _logger.Information("{Message}", message);
         }
     }
 }

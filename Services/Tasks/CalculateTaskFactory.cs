@@ -38,15 +38,18 @@ namespace sample.console.Services.Tasks
             {
                 var expression = string.Join(" ", _options.Expression);
                 _logger.LogDebug("Evaluating {Evaluation}", expression);
+                
                 var start = DateTime.Now;
                 var results = _evaluator.Evaluate(expression);
                 var end = DateTime.Now;
                 var output = CalculateOutput.FromResults(results);
+
                 _console.WriteLine(_options.Format == OutputFormat.Text
                     ? output.ToString()
                     : output.ToJson());
                 _logger.LogDebug("Evaluated in {Elapsed} milliseconds",
                     end.Subtract(start).TotalMilliseconds);
+
                 return 0;
             }
             catch (Exception ex)
