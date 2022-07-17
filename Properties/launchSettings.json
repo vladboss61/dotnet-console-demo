@@ -7,9 +7,23 @@
 
       }
     },
+    "Sample.Console.Calc.Json": {
+      "commandName": "Project",
+      "commandLineArgs": "calc 500 + 2 -f Json",
+      "environmentVariables": {
+
+      }
+    },
     "Sample.Console.Stats": {
       "commandName": "Project",
       "commandLineArgs": "stats 100 200 300 400 500",
+      "environmentVariables": {
+
+      }
+    },
+    "Sample.Console.Stats.Json": {
+      "commandName": "Project",
+      "commandLineArgs": "stats 100 200 300 400 500 -f Json",
       "environmentVariables": {
 
       }
