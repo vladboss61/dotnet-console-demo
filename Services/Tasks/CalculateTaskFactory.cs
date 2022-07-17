@@ -3,9 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CodingSeb.ExpressionEvaluator;
-using Microsoft.Extensions.Logging;
 using sample.console.Models.Arguments;
 using sample.console.Models.Output;
+using Serilog;
 
 namespace sample.console.Services.Tasks
 {
@@ -14,13 +14,13 @@ namespace sample.console.Services.Tasks
     {
         private readonly ExpressionEvaluator _evaluator;
         private readonly IConsoleOutput _console;
-        private readonly ILogger<Calculate> _logger;
+        private readonly ILogger _logger;
         private readonly CalculateOptions _options;
 
         public Calculate(
             ExpressionEvaluator evaluator,
             IConsoleOutput console,
-            ILogger<Calculate> logger,
+            ILogger logger,
             CalculateOptions options)
         {
             _evaluator = evaluator;
@@ -37,7 +37,7 @@ namespace sample.console.Services.Tasks
             try
             {
                 var expression = string.Join(" ", _options.Expression);
-                _logger.LogDebug("Evaluating {Evaluation}", expression);
+                _logger.Information("Evaluating {Evaluation}", expression);
                 
                 var start = DateTime.Now;
                 var results = _evaluator.Evaluate(expression);
@@ -47,7 +47,8 @@ namespace sample.console.Services.Tasks
                 _console.WriteLine(_options.Format == OutputFormat.Text
                     ? output.ToString()
                     : output.ToJson());
-                _logger.LogDebug("Evaluated in {Elapsed} milliseconds",
+
+                _logger.Information("Evaluated in {Elapsed} milliseconds",
                     end.Subtract(start).TotalMilliseconds);
 
                 return 0;

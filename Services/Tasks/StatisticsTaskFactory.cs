@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MathNet.Numerics.Statistics;
-using Microsoft.Extensions.Logging;
 using sample.console.Models.Arguments;
 using sample.console.Models.Output;
+using Serilog;
 
 namespace sample.console.Services.Tasks
 {
@@ -14,12 +14,12 @@ namespace sample.console.Services.Tasks
     public class Statistics : IApplication
     {
         private readonly IConsoleOutput _console;
-        private readonly ILogger<Statistics> _logger;
+        private readonly ILogger _logger;
         private readonly StatisticsOptions _options;
 
         public Statistics(
             IConsoleOutput console,
-            ILogger<Statistics> logger,
+            ILogger logger,
             StatisticsOptions options)
         {
             _console = console;
@@ -34,7 +34,7 @@ namespace sample.console.Services.Tasks
         {
             try
             {
-                _logger.LogDebug("Analyzing {Values}", string.Join(",", _options.Values));
+                _logger.Information("Analyzing {Values}", string.Join(",", _options.Values));
                 
                 var start = DateTime.Now;
                 var stats = new DescriptiveStatistics(_options.Values.Select(Convert.ToDouble));
@@ -45,7 +45,7 @@ namespace sample.console.Services.Tasks
                     : JsonSerializer.Serialize(results);
 
                 _console.WriteLine(output);
-                _logger.LogDebug("Analyzed in {Elapsed} milliseconds", 
+                _logger.Information("Analyzed in {Elapsed} milliseconds", 
                     end.Subtract(start).TotalMilliseconds);
                 
                 return 0;
