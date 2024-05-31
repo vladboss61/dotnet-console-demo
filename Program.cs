@@ -25,7 +25,6 @@ namespace sample.console
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
-                .WriteTo.Console()
                 .WriteTo.File("logs/app_logs.txt", rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
