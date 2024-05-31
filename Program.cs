@@ -1,13 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using CodingSeb.ExpressionEvaluator;
-using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using sample.console.Models.Arguments;
-using sample.console.Services;
 using sample.console.Services.Tasks;
 using Serilog;
 
@@ -29,7 +25,11 @@ namespace sample.console
 
             var logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
+                .WriteTo.Console()
+                .WriteTo.File("logs/app_logs.txt", rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
+
+            Log.Logger = logger;
 
             try
             {
@@ -39,8 +39,7 @@ namespace sample.console
                     .Build();
 
                 var application = host.Services.GetService<IApplication>();
-
-                return application is null ? -1 : await application.Launch();
+                return application is null ? -1 : await application.LaunchAsync();
             }
             catch (Exception ex)
             {

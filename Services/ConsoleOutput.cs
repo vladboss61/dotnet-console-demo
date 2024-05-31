@@ -22,7 +22,7 @@ namespace sample.console.Services
 
         public void WriteError(string message)
         {
-            _logger.Information("{Message}", message);
+            _logger.Error( "{Message}", message);
         }
     }
 }

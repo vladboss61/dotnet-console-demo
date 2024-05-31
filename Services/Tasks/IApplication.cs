@@ -11,6 +11,6 @@ namespace sample.console.Services.Tasks
         /// Execute a task, return the exit code (0 = success)
         /// </summary>
         /// <returns></returns>
-        public Task<int> Launch();
+        public Task<int> LaunchAsync();
     }
 }

@@ -30,7 +30,7 @@ namespace sample.console.Services.Tasks
         /// <summary>
         /// Outputs a feed to the specified file and format  
         /// </summary>
-        public Task<int> Launch() => Task.Run(() =>
+        public Task<int> LaunchAsync() => Task.Run(() =>
         {
             try
             {
